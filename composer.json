@@ -1,0 +1,12 @@
+{
+  "name": "robske110/logger",
+  "description": "Simple echo & file-based logger",
+  "require": {
+    "php": "^7.2 || ^8"
+  },
+  "autoload": {
+    "psr-4": {
+      "robske_110\\Logger\\": "src/"
+    }
+  }
+}
