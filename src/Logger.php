@@ -9,6 +9,8 @@ abstract class Logger{
 	private static bool $debugFileEnabled;
 	private static bool $outputEnabled;
 	
+	private static array $outputFilter = [];
+    
 	const LOG_LVL_INFO = 0;
 	const LOG_LVL_NOTICE = 1;
 	const LOG_LVL_WARNING = 2;
@@ -40,8 +42,19 @@ abstract class Logger{
 		}
 	}
 	
+	public static function addOutputFilter(string $outputFilter){
+		self::$outputFilter[] = $outputFilter;
+	}
+	
 	public static function setOutputEnabled(bool $enabled = true){
 		self::$outputEnabled = $enabled;
+	}
+	
+	private static function filterString(string $str): string{
+		foreach(self::$outputFilter as $outputFilter){
+			$str = str_replace($outputFilter, "**REMOVED**", $str);
+		}
+		return $str;
 	}
 	
 	public static function log(string $msg, int $logLvl = self::LOG_LVL_INFO, bool $lBafter = true, bool $lBbefore = false, bool $exportDebug = true){
@@ -73,6 +86,7 @@ abstract class Logger{
 			case self::LOG_LVL_DEBUG: $lvl = "[DEBUG] "; break;
 		}
 		if(self::$outputEnabled){
+			$msg = self::filterString($msg);
 			echo($p.$lvl.$msg.$r);
 		}
 		if($exportDebug){
@@ -96,14 +110,29 @@ abstract class Logger{
 	}
 	
 	public static function debug(string $msg, int $debugType = self::DEBUG_TYPE_NORMAL){
-		if(self::$debugEnabled){
-			if($debugType !== self::DEBUG_TYPE_IMPORTED){
+		if($debugType !== self::DEBUG_TYPE_IMPORTED){
+			if(self::$debugEnabled){
 				self::log($msg, self::LOG_LVL_DEBUG);
-				return;
 			}
-			if(self::$debugFileEnabled){
-				fwrite(self::$debugFile, $msg);
-			}
+			return;
 		}
+		if(self::$debugFileEnabled){
+			$msg = self::filterString($msg);
+			fwrite(self::$debugFile, $msg);
+		}
+	}
+	
+	public static function var_dump($data, ?string $name = null, bool $return = false): string{
+		ob_start();
+		var_dump($data);
+		$str = ob_get_clean();
+		if(self::$debugEnabled && !$return){
+			if($name !== null){
+				self::debug($name.":");
+			}
+			echo(self::filterString($str));
+			self::debug($str, self::DEBUG_TYPE_IMPORTED);
+		}
+		return $str;
 	}
 }
