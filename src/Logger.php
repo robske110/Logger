@@ -69,7 +69,7 @@ abstract class Logger{
 			case self::LOG_LVL_NOTICE: $lvl = "\e[93m[NOTICE] "; break;
 			case self::LOG_LVL_WARNING: $lvl = "\e[91m[WARNING] "; break;
 			case self::LOG_LVL_CRITICAL: $lvl = "\e[31m[CRITICAL] "; break;
-			case self::LOG_LVL_EMERGENCY: $lvl = "\e[41m\e[37m[EMERGENCY] "; break;
+			case self::LOG_LVL_EMERGENCY: $lvl = "\e[41m\e[39m[EMERGENCY] "; break;
 			case self::LOG_LVL_DEBUG: $lvl = "[DEBUG] "; break;
 		}
 		if(self::$outputEnabled){
