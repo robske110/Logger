@@ -19,13 +19,13 @@ abstract class Logger{
 	const DEBUG_TYPE_IMPORTED = 0;
 	const DEBUG_TYPE_NORMAL = 1;
 	
-	public static function init(bool $debugEnabled = true, bool $debugFileEnabled = false){
+	public static function init(bool $debugEnabled = true, bool $debugFileEnabled = false, string $directory = __DIR__."/debug/"){
 		self::$debugEnabled = $debugEnabled;
 		self::$debugFileEnabled = $debugFileEnabled;
 		self::$outputEnabled = true;
 		if($debugFileEnabled){
-			@mkdir(__DIR__."/Debug/");
-			$filename = __DIR__."/Debug/Debug".date("d:m:Y_H-i-s", time()).".txt";
+			@mkdir($directory);
+			$filename = $directory."Debug".date("d.m.Y_H:i:s", time()).".log";
 			self::$debugFile = fopen($filename,'w+');
 			if(!self::$debugFile){
 				self::$debugFileEnabled = false;
