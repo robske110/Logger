@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+
 namespace robske_110\Logger;
 
 abstract class Logger{
@@ -32,6 +33,7 @@ abstract class Logger{
 			}
 		}
 	}
+	
 	public static function close(){
 		if(self::$debugFileEnabled){
 			fclose(self::$debugFile);
