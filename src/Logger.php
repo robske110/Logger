@@ -130,7 +130,9 @@ abstract class Logger{
 			if($name !== null){
 				self::debug($name.":");
 			}
-			echo(self::filterString($str));
+			if(self::$outputEnabled){
+				echo(self::filterString($str));
+			}
 			self::debug($str, self::DEBUG_TYPE_IMPORTED);
 		}
 		return $str;
