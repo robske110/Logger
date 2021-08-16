@@ -7,7 +7,7 @@ abstract class Logger{
 	private static bool $debugEnabled;
 	private static $debugFile;
 	private static bool $debugFileEnabled;
-	private static bool $outputEnabled;
+	private static bool $outputEnabled = true;
 	
 	private static array $outputFilter = [];
     
@@ -24,7 +24,6 @@ abstract class Logger{
 	public static function init(bool $debugEnabled = true, bool $debugFileEnabled = false, string $directory = __DIR__."/debug/"){
 		self::$debugEnabled = $debugEnabled;
 		self::$debugFileEnabled = $debugFileEnabled;
-		self::$outputEnabled = true;
 		if($debugFileEnabled){
 			@mkdir($directory);
 			$filename = $directory."Debug".date("d.m.Y_H:i:s", time()).".log";
