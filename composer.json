@@ -2,7 +2,8 @@
   "name": "robske110/logger",
   "description": "Simple echo & file-based logger",
   "require": {
-    "php": "^7.2 || ^8"
+    "php": "^8",
+    "psr/log": "^3.0"
   },
   "autoload": {
     "psr-4": {
