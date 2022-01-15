@@ -59,7 +59,7 @@ abstract class Logger{
 	public static function log(string $msg, int $logLvl = self::LOG_LVL_INFO, bool $lBafter = true, bool $lBbefore = false, bool $exportDebug = true){
 		$time = gettimeofday();
 		$time['sec'] = $time['sec'] - $time['minuteswest'] * 60;
-		$currTime = \DateTime::createFromFormat('U.u',implode(".", array_slice($time, 0, 2)))->format("H:i:s.u ");
+		$currTime = \DateTime::createFromFormat('U.u',$time['sec'].".".str_pad((string) $time['usec'], 6, "0", STR_PAD_LEFT))->format("H:i:s.u ");
 		if($msg[0] === "\r"){
 			$p = "\r";
 			$msg[0] = "";
