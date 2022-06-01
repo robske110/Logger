@@ -52,5 +52,11 @@ class PSRLogger implements LoggerInterface{
 			default => throw new InvalidArgumentException,
 		};
 		Logger::log((string) $message, $level);
+		foreach($context as $item){
+			if($item instanceof \Throwable){
+				Logger::critical($item->getMessage());
+				Logger::debug($item->getTraceAsString());
+			}
+		}
 	}
 }
